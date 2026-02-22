@@ -41,10 +41,16 @@ export default function Block1() {
   const [questionNum, setQuestionNum] = useState<number | null>(null);
   const [autoCount, setAutoCount] = useState<number>(0);
   const [countInArea, setCountInArea] = useState<number>(0);
+  const [showToast, setShowToast] = useState<boolean>(true);
 
   useEffect(() => {
     el_text.current!.innerHTML = INIT_TEXT[1];
   }, []);
+
+  const closeToast = () => {
+    se.set.play();
+    setShowToast(false);
+  };
 
   // 難易度から出題範囲を取得
   const getRange = () => {
@@ -120,6 +126,58 @@ export default function Block1() {
 
   return (
     <Layout title="ぶろっく">
+
+      {/* 起動時トースト */}
+      {showToast && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="bg-white rounded-2xl shadow-2xl w-[90vw] max-w-md p-6 mx-4">
+
+            {/* タイトル */}
+            <h2 className="text-center text-xl md:text-2xl font-bold text-blue-600 mb-4">
+              🎯 ぶろっくのつかいかた
+            </h2>
+
+            {/* できること */}
+            <p className="text-center text-sm md:text-base text-gray-600 mb-4">
+              ぶろっくをならべながら　かずをまなぼう！<br />
+              したの３つのモードからえらんでね。
+            </p>
+
+            {/* 3モードの説明 */}
+            <div className="space-y-3 mb-6">
+              <div className="flex items-start gap-3 bg-blue-50 rounded-xl p-3">
+                <span className="text-2xl">①</span>
+                <div>
+                  <div className="font-bold text-blue-700">なんこならべたかな？</div>
+                  <div className="text-sm text-gray-600">ぶろっくをならべて「たしかめ」をおすと　いまなんこならんでいるか　おしえてくれるよ</div>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 bg-green-50 rounded-xl p-3">
+                <span className="text-2xl">②</span>
+                <div>
+                  <div className="font-bold text-green-700">ならべたかずはいくつ？</div>
+                  <div className="text-sm text-gray-600">「もんだい」をおすと　ぶろっくがならぶよ。なんこならんでいるか　すうじボタンでこたえよう</div>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 bg-orange-50 rounded-xl p-3">
+                <span className="text-2xl">③</span>
+                <div>
+                  <div className="font-bold text-orange-700">ならべよう</div>
+                  <div className="text-sm text-gray-600">「もんだい」をおすと　「○こならべましょう」ともんだいがでるよ。はこからぶろっくをうごかしてならべよう</div>
+                </div>
+              </div>
+            </div>
+
+            {/* はじめるボタン */}
+            <button
+              onClick={closeToast}
+              className="w-full py-3 bg-blue-500 hover:bg-blue-600 active:translate-y-0.5 text-white font-bold text-lg rounded-xl shadow-md transition-colors"
+            >
+              はじめる！
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* モード選択トグル */}
       <div className="flex flex-wrap justify-center gap-2 my-3">
