@@ -43,9 +43,61 @@ export default function Block1() {
   const [countInArea, setCountInArea] = useState<number>(0);
   const [showToast, setShowToast] = useState<boolean>(true);
 
+  // ── コインシステム ──
+  const coinPalletRef = useRef<HTMLDivElement>(null);
+  const [coinCount, setCoinCount] = useState(0);
+  const hasAnsweredRef = useRef(false); // 1問につき初回正解のみコイン付与
+
+  // ページ読み込み時に localStorage からコインを復元（アニメなし）
   useEffect(() => {
     el_text.current!.innerHTML = INIT_TEXT[1];
+    const saved = localStorage.getItem("coinCount");
+    const count = saved ? parseInt(saved, 10) : 0;
+    for (let i = 0; i < count; i++) {
+      const img = document.createElement("img");
+      img.src = "/coin.png";
+      img.alt = "コイン";
+      img.style.width = "clamp(35px, 5vw, 50px)";
+      coinPalletRef.current?.appendChild(img);
+    }
+    setCoinCount(count);
   }, []);
+
+  // コインを1枚追加（アニメーションあり）
+  const addCoin = () => {
+    const img = document.createElement("img");
+    img.src = "/coin.png";
+    img.alt = "コイン";
+    img.className = "coin-animate";
+    img.style.width = "clamp(35px, 5vw, 50px)";
+    coinPalletRef.current?.appendChild(img);
+    const saved = localStorage.getItem("coinCount");
+    const count = saved ? parseInt(saved, 10) : 0;
+    localStorage.setItem("coinCount", String(count + 1));
+    setCoinCount(count + 1);
+  };
+
+  // コインリセット（掛け算の確認問題付き）
+  const resetCoins = () => {
+    se.set.play();
+    const num1 = Math.floor(Math.random() * 90) + 10;
+    const num2 = Math.floor(Math.random() * 9) + 1;
+    const correct = num1 * num2;
+    const ans = prompt(
+      `コインをリセットするには　けいさんもんだいに　こたえてください。\n\n${num1} × ${num2} = ?`
+    );
+    if (ans === null) return;
+    if (parseInt(ans, 10) === correct) {
+      localStorage.removeItem("coinCount");
+      if (coinPalletRef.current) coinPalletRef.current.innerHTML = "";
+      setCoinCount(0);
+      se.seikai1.play();
+      alert("せいかい！　コインをリセットしました。");
+    } else {
+      se.alertSound.play();
+      alert(`ちがいます。こたえは　${correct}　でした。`);
+    }
+  };
 
   const closeToast = () => {
     se.set.play();
@@ -66,6 +118,7 @@ export default function Block1() {
     setMode(m);
     setQuestionNum(null);
     setAutoCount(0);
+    hasAnsweredRef.current = false;
     el_text.current!.innerHTML = INIT_TEXT[m];
   };
 
@@ -76,12 +129,11 @@ export default function Block1() {
     const n = Math.floor(Math.random() * (max - min + 1) + min);
     setQuestionNum(n);
 
+    hasAnsweredRef.current = false;
     if (mode === 2) {
-      // 上段に自動配置、下段なし
       setAutoCount(n);
       el_text.current!.innerHTML = "ぶろっくは　なんこ　ならんでいるかな？";
     } else {
-      // mode 3: 上段は空のまま、児童が並べる
       setAutoCount(0);
       el_text.current!.innerHTML = `<span style="color:blue;">${n}</span>こ　ならべましょう`;
     }
@@ -102,6 +154,10 @@ export default function Block1() {
       return;
     }
     if (countInArea === questionNum) {
+      if (!hasAnsweredRef.current) {
+        addCoin();
+        hasAnsweredRef.current = true;
+      }
       sendRight(el_text);
       setQuestionNum(null);
     } else {
@@ -117,6 +173,10 @@ export default function Block1() {
       return;
     }
     if (myAnswer === questionNum) {
+      if (!hasAnsweredRef.current) {
+        addCoin();
+        hasAnsweredRef.current = true;
+      }
       sendRight(el_text);
       setQuestionNum(null);
     } else {
@@ -245,6 +305,25 @@ export default function Block1() {
           <BtnNum ITEM={NUM_2} handleEvent={checkAnswerNum} />
         </>
       )}
+
+      {/* コインエリア */}
+      <div className="flex items-center gap-3 mx-auto my-4 px-4 py-3 rounded-xl bg-amber-50 border-2 border-amber-300"
+           style={{ width: "max(44vw, 440px)" }}>
+        <div className="text-2xl">🪙</div>
+        <div
+          ref={coinPalletRef}
+          className="flex flex-wrap gap-1 flex-1 min-h-[44px] items-center"
+        ></div>
+        <div className="text-right">
+          <div className="text-xs text-amber-700 font-bold">{coinCount}まい</div>
+          <button
+            onClick={resetCoins}
+            className="mt-1 text-xs px-2 py-1 bg-red-400 hover:bg-red-500 text-white rounded-lg font-bold transition-colors"
+          >
+            リセット
+          </button>
+        </div>
+      </div>
 
     </Layout>
   );

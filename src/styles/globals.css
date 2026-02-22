@@ -32,3 +32,14 @@ body {
 .draggable-elem:active {
   cursor: grabbing;
 }
+
+/* コイン落下アニメーション */
+@keyframes coinDrop {
+  0%   { transform: translateY(-50px) scale(0.5); opacity: 0; }
+  50%  { transform: translateY(0) scale(1.1);     opacity: 1; }
+  100% { transform: translateY(0) scale(1);        opacity: 1; }
+}
+
+.coin-animate {
+  animation: coinDrop 0.5s ease-out;
+}
