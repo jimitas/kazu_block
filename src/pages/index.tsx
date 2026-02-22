@@ -309,7 +309,6 @@ export default function Block1() {
       {/* コインエリア */}
       <div className="flex items-center gap-3 mx-auto my-4 px-4 py-3 rounded-xl bg-amber-50 border-2 border-amber-300"
            style={{ width: "max(44vw, 440px)" }}>
-        <div className="text-2xl">🪙</div>
         <div
           ref={coinPalletRef}
           className="flex flex-wrap gap-1 flex-1 min-h-[44px] items-center"
