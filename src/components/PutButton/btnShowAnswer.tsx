@@ -8,19 +8,19 @@ interface BtnCheckProps {
 }
 
 export function BtnShowAnswer(props: BtnCheckProps) {
-  const { handleEvent } = props;
+  const { handleEvent, btnText = "こたえをみる" } = props;
 
   return (
     <div className="flex flex-wrap justify-center">
       <button
-        className="flex justify-center item-center font-bold m-2 p-2 
+        className="flex justify-center item-center font-bold m-2 p-2
                    w-32 md:w-36 text-sm md:text-base
                    border-red-300 bg-white border-2 text-red-400  hover:bg-red-500 hover:text-white active:translate-y-1 rounded-lg shadow-lg"
         onClick={handleEvent}
       >
         <div className="flex">
           <FontAwesomeIcon icon={faEye} className="w-4 h-4 md:w-6 md:h-6" />
-          {"こたえをみる"}
+          {btnText}
         </div>
       </button>
     </div>

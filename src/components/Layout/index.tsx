@@ -190,16 +190,15 @@ const Layout: React.FC<LayoutProps> = ({ children, title }) => {
 
       <div className="body flex flex-col min-h-screen">
         <header className="text-center mt-4 md:mt-6 lg:mt-8">
-          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold">➕ 算数　たしざん練習アプリ（数図ブロック付き） 🧮</h1>
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold">ぶろっく</h1>
         </header>
         <main className="container mx-auto flex-grow mt-4 md:mt-6 lg:mt-8">
-          <div className="mt-5 text-xl md:text-2xl lg:text-3xl text-center font-bold">{title}</div>
           <div>{children}</div>
         </main>
         <footer className="bg-gray-100 mt-8 py-4">
           <p className="text-center text-sm md:text-base px-4 mb-2">
             小学1年生から2年生向けのたしざん練習アプリです。数図ブロックで視覚的に学習できます。
-            <span className="text-blue-600 font-bold"> ✨ ドラッグ&ドロップでブロックを移動</span>できるので、
+            <span className="text-blue-600 font-bold"> ✨ ドラッグ&ドロップでぶろっくを移動</span>できるので、
             手を動かしながら楽しく取り組めます。10までのかず、10+□、1□+□、20までのかずの4つの難易度レベルで幅広くサポート。
           </p>
           <p className="text-center text-sm md:text-base">

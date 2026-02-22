@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import * as se from "src/components/se";
 import styles from "src/components/Block/Block.module.css";
 
@@ -9,131 +9,127 @@ import { BtnUndo } from "src/components/PutButton/btnUndo";
 const divColor = ["#ff8082", "#005aff", "#ff8082", "#005aff"];
 
 interface BlockProps {
-  leftCount: number;
-  rightCount: number;
+  autoCount: number;
+  lowerEnabled?: boolean;
+  onCountChange?: (count: number) => void;
 }
 
 export function Block(props: BlockProps) {
-  // 自前の Drag アンド Drop の hooks
-  // react-draggableだとやはり、パフォーマンスが落ちるのと、カラーチェンジやCSSの当て方がうまくいかないため、やはり却下します。
+  const el_upper = useRef<HTMLDivElement>(null);
+  const el_lower = useRef<HTMLDivElement>(null);
+  const [resetKey, setResetKey] = useState(0);
+
+  const onCountChangeRef = useRef(props.onCountChange);
+  onCountChangeRef.current = props.onCountChange;
+
+  // 上エリアのブロック数を数えてコールバック呼び出し
+  const notifyCount = useCallback(() => {
+    const count = el_upper.current?.querySelectorAll(".draggable-elem").length ?? 0;
+    onCountChangeRef.current?.(count);
+  }, []);
+
   const { dragStart, dragOver, dropEnd, touchStart, touchMove, touchEnd } =
-    useDragDrop();
-
-  // ４つの数図ブロックの親要素
-  const el_table = useRef<HTMLDivElement>(null);
-
-  // ４つの数図ブロックに格納する数の算出
-  const left_up = props.leftCount > 10 ? 10 : 0 || 0;
-  const right_up = props.rightCount > 10 ? 10 : 0 || 0;
-  const left_down =
-    props.leftCount > 10
-      ? props.leftCount - 10
-      : props.leftCount === 0
-      ? 0
-      : props.leftCount || 10;
-  const right_down =
-    props.rightCount > 10
-      ? props.rightCount - 10
-      : props.rightCount === 0
-      ? 0
-      : props.rightCount || 10;
-
-  const [count, setCount] = useState(0);
+    useDragDrop(notifyCount);
 
   const resetTable = () => {
-    setCount((count) => count + 1);
+    setResetKey((k) => k + 1);
     se.seikai1.play();
   };
 
-  // 動的に数図ブロックを作ったほうがuseDrag&Dropの動きが良かった。
+  const upperLeft  = Math.min(props.autoCount, 10);
+  const upperRight = Math.max(0, props.autoCount - 10);
+  const lowerEnabled = props.lowerEnabled !== false;
+  const lowerLeft  = lowerEnabled ? 10 : 0;
+  const lowerRight = lowerEnabled ? 10 : 0;
 
   useEffect(() => {
-    const ele = el_table.current;
-    while (ele?.firstChild) {
-      ele.removeChild(ele.firstChild);
-    }
-    for (let i = 0; i < 4; i++) {
-      const TBL = document.createElement("table");
-      ele?.appendChild(TBL);
-      for (let j = 0; j < 2; j++) {
-        const tr = document.createElement("tr");
-        TBL.appendChild(tr);
-        for (let k = 0; k < 5; k++) {
-          const td = document.createElement("td");
-          td.className = "droppable-elem";
-          tr.appendChild(td);
-
-          if (
-            (i === 0 && j * 5 + k < left_up) ||
-            (i === 1 && j * 5 + k < right_up) ||
-            (i === 2 && j * 5 + k < left_down) ||
-            (i === 3 && j * 5 + k < right_down)
-          ) {
-            let colorIndex = i;
-            let touchStartFlag = false;
-
-            const div = document.createElement("div");
-            div.className = "draggable-elem";
-            div.setAttribute("draggable", "true");
-            td.appendChild(div);
-            div.style.backgroundColor = divColor[colorIndex];
-
-            // 裏返すと色が変わる関数
-            const colorChange = (e: MouseEvent | TouchEvent) => {
-              se.pi.play();
-              colorIndex++;
-              // e.target.style.transform =
-              //   e.target.style.transform == "rotateY(180deg)" ? "rotateY(0deg)" : "rotateY(180deg)";
-              // div.style.backgroundColor = divColor[colorIndex % 2];
-              const target = e.target as HTMLElement;
-              target.style.transform =
-                target.style.transform == "rotateY(180deg)"
-                  ? "rotateY(0deg)"
-                  : "rotateY(180deg)";
-              div.style.backgroundColor = divColor[colorIndex % 2];
-            };
-
-            // 150ミリ秒以内にタッチして指を離すとき，クリックイベントと同じ挙動とみなす。
-            const touchStartEvent = () => {
-              touchStartFlag === false
-                ? (touchStartFlag = true)
-                : (touchStartFlag = false);
-              setTimeout(() => {
-                touchStartFlag = false;
-              }, 150);
-            };
-            const touchEndEvent = (e: TouchEvent) => {
-              touchStartFlag === true ? colorChange(e) : null;
-            };
-
-            div.addEventListener("click", colorChange, false);
-            div.addEventListener("dragstart", dragStart, false);
-            div.addEventListener("dragover", dragOver, false);
-            div.addEventListener("drop", dropEnd, false);
-            div.addEventListener("touchstart", touchStart, false);
-            div.addEventListener("touchstart", touchStartEvent, false);
-            div.addEventListener("touchmove", touchMove, false);
-            div.addEventListener("touchend", touchEnd, false);
-            div.addEventListener("touchend", touchEndEvent, false);
+    // テーブルを生成してコンテナに追加する
+    const createTables = (
+      container: HTMLDivElement,
+      counts: number[],
+      colorOffset: number
+    ) => {
+      while (container.firstChild) {
+        container.removeChild(container.firstChild);
+      }
+      for (let i = 0; i < counts.length; i++) {
+        const TBL = document.createElement("table");
+        container.appendChild(TBL);
+        for (let j = 0; j < 2; j++) {
+          const tr = document.createElement("tr");
+          TBL.appendChild(tr);
+          for (let k = 0; k < 5; k++) {
+            const td = document.createElement("td");
+            td.className = "droppable-elem";
+            tr.appendChild(td);
+            if (j * 5 + k < counts[i]) {
+              let colorIndex = i + colorOffset;
+              let touchStartFlag = false;
+              const div = document.createElement("div");
+              div.className = "draggable-elem";
+              div.setAttribute("draggable", "true");
+              td.appendChild(div);
+              div.style.backgroundColor = divColor[colorIndex];
+              const colorChange = (e: MouseEvent | TouchEvent) => {
+                se.pi.play();
+                colorIndex++;
+                const target = e.target as HTMLElement;
+                target.style.transform =
+                  target.style.transform == "rotateY(180deg)"
+                    ? "rotateY(0deg)"
+                    : "rotateY(180deg)";
+                div.style.backgroundColor = divColor[colorIndex % 2];
+              };
+              const touchStartEvent = () => {
+                touchStartFlag === false
+                  ? (touchStartFlag = true)
+                  : (touchStartFlag = false);
+                setTimeout(() => { touchStartFlag = false; }, 150);
+              };
+              const touchEndEvent = (e: TouchEvent) => {
+                touchStartFlag === true ? colorChange(e) : null;
+              };
+              div.addEventListener("click", colorChange, false);
+              div.addEventListener("dragstart", dragStart, false);
+              div.addEventListener("dragover", dragOver, false);
+              div.addEventListener("drop", dropEnd, false);
+              div.addEventListener("touchstart", touchStart, false);
+              div.addEventListener("touchstart", touchStartEvent, false);
+              div.addEventListener("touchmove", touchMove, false);
+              div.addEventListener("touchend", touchEnd, false);
+              div.addEventListener("touchend", touchEndEvent, false);
+            }
           }
         }
       }
-    }
-  }, [count, left_down, left_up, right_down, right_up, dragStart, dragOver, dropEnd, touchStart, touchMove, touchEnd]);
+    };
+
+    if (el_upper.current) createTables(el_upper.current, [upperLeft, upperRight], 0);
+    if (el_lower.current) createTables(el_lower.current, [lowerLeft, lowerRight], 2);
+
+    onCountChangeRef.current?.(upperLeft + upperRight);
+  }, [resetKey, upperLeft, upperRight, lowerLeft, lowerRight, dragStart, dragOver, dropEnd, touchStart, touchMove, touchEnd]);
 
   return (
     <div className="flex justify-center flex-wrap items-end">
-      <BtnSpace></BtnSpace>
-      {/* ドラッグイベントは、親要素に反映させる必要あり */}
-
+      <BtnSpace />
       <div
-        ref={el_table}
-        className={styles.table}
         onDragStart={(e) => dragStart(e.nativeEvent)}
         onDragOver={(e) => dragOver(e.nativeEvent)}
         onDrop={(e) => dropEnd(e.nativeEvent)}
-      ></div>
-      <BtnUndo handleEvent={resetTable}></BtnUndo>
+      >
+        {/* 上エリア: ならべるところ */}
+        <div ref={el_upper} className={styles.upperArea}></div>
+
+        {/* 仕切りラベル */}
+        <div className={styles.separator}>ぶろっくのはこ</div>
+
+        {/* 下エリア: 木箱 */}
+        <div className={styles.woodBox}>
+          <div ref={el_lower} className={styles.lowerGrid}></div>
+        </div>
+      </div>
+      <BtnUndo handleEvent={resetTable} />
     </div>
   );
 }
