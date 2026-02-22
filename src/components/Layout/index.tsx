@@ -6,78 +6,75 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children, title }) => {
+const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <>
       <Head>
-        {/* Google Analytics - 必要に応じてIDを設定 */}
-        {/* <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script> */}
-
         {/* 基本メタタグ */}
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-        {/* SEO対策: タイトル */}
-        <title>たしざん練習アプリ（数図ブロック付き）【無料】小学1〜2年生の算数学習に最適 - jimitas.com</title>
+        {/* SEO: タイトル */}
+        <title>ぶろっく【無料】小学1年生の算数・かずの学習に最適 | ぶろっくでかずをかぞえよう - jimitas.com</title>
 
-        {/* SEO対策: メタディスクリプション */}
-        <meta name="description" content="数図ブロックでたしざんを視覚的に学べる無料アプリ。小学1〜2年生向けの足し算を、ドラッグ&ドロップ対応の数図ブロックで直感的に練習できます。10までのかず、10+□・□+10、1□+□・□+1□、20までのかずの4つの難易度レベル。ブロックをクリック/タップで裏返し、ドラッグで移動可能。効果音付きで楽しく学習。タブレット最適化対応。ブラウザで今すぐ使える算数学習ツール。" />
+        {/* SEO: メタディスクリプション */}
+        <meta name="description" content="かずのがくしゅうを楽しく学べる無料アプリ。小学1年生向けにぶろっくを並べながら数の概念を視覚的に学習できます。3つのモード（なんこならべたかな・ならべたかずはいくつ・ならべよう）で段階的に学習。正解するとコインが貯まるゲーミフィケーション機能で楽しく学習。難易度は4段階（1〜5、1〜10、11〜20、1〜20）。タブレット・スマホ最適化対応。ブラウザで今すぐ使える算数学習ツール。" />
 
-        {/* SEO対策: キーワード */}
-        <meta name="keywords" content="たしざん練習アプリ,数図ブロック,たしざん アプリ 無料,足し算 練習,小学生 算数,算数 たしざん,小学1年生 算数,小学2年生 算数,算数 学習アプリ,ドラッグアンドドロップ,視覚的学習,オンライン学習,jimitas.com" />
+        {/* SEO: キーワード */}
+        <meta name="keywords" content="ぶろっく,数図ブロック,かずのがくしゅう,かず アプリ 無料,小学生 算数,小学1年生 算数,数の概念,ブロック 算数,かずを数える,数える練習,算数 学習アプリ,ドラッグアンドドロップ,視覚的学習,オンライン学習,jimitas.com" />
 
-        {/* SEO対策: 著者 */}
+        {/* SEO: 著者 */}
         <meta name="author" content="jimitas.com" />
 
-        {/* SEO対策: 言語 */}
+        {/* SEO: 言語 */}
         <meta httpEquiv="content-language" content="ja" />
+        <meta name="language" content="Japanese" />
 
         <meta name="robots" content="index, follow" />
-        <meta name="language" content="Japanese" />
         <meta name="rating" content="general" />
         <meta name="distribution" content="global" />
 
-        {/* Open Graph / Facebook */}
+        {/* Open Graph */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://jimitas.com/tashizan_1/" />
-        <meta property="og:title" content="たしざん練習アプリ（数図ブロック付き）【無料】小学1〜2年生の算数学習に最適 | jimitas.com" />
-        <meta property="og:description" content="数図ブロックでたしざんを視覚的に学べる無料アプリ。小学1〜2年生向けの足し算を、ドラッグ&ドロップ対応の数図ブロックで直感的に練習。10までのかず、10+□、1□+□、20までのかずの4つの難易度レベル。効果音付きで楽しく学習。" />
+        <meta property="og:url" content="https://jimitas.com/kazu_block/" />
+        <meta property="og:title" content="ぶろっく【無料】小学1年生の算数・かずの学習に最適 | jimitas.com" />
+        <meta property="og:description" content="かずのがくしゅうを楽しく学べる無料アプリ。小学1年生向けにぶろっくを並べながら数の概念を視覚的に学習。3つのモードで段階的に学習。コインが貯まるゲーミフィケーション要素で楽しく学習。" />
         <meta property="og:site_name" content="jimitas.com" />
         <meta property="og:locale" content="ja_JP" />
 
-        {/* Twitter */}
+        {/* Twitter Card */}
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://jimitas.com/tashizan_1/" />
-        <meta property="twitter:title" content="たしざん練習アプリ（数図ブロック付き）【無料】小学1〜2年生の算数学習に最適" />
-        <meta property="twitter:description" content="数図ブロックでたしざんを視覚的に学べる無料アプリ。小学1〜2年生向けの足し算を、ドラッグ&ドロップ対応の数図ブロックで直感的に練習。効果音付きで楽しく学習。" />
+        <meta property="twitter:url" content="https://jimitas.com/kazu_block/" />
+        <meta property="twitter:title" content="ぶろっく【無料】小学1年生の算数・かずの学習に最適" />
+        <meta property="twitter:description" content="かずのがくしゅうを楽しく学べる無料アプリ。小学1年生向けにぶろっくを並べながら数の概念を視覚的に学習。3つのモードで段階的に学習。" />
 
         {/* Canonical URL */}
-        <link rel="canonical" href="https://jimitas.com/tashizan_1/" />
+        <link rel="canonical" href="https://jimitas.com/kazu_block/" />
 
         {/* モバイル対応 */}
         <meta name="theme-color" content="#3b82f6" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="たしざん（ブロック）" />
+        <meta name="apple-mobile-web-app-title" content="ぶろっく" />
 
-        {/* 構造化データ */}
+        {/* 構造化データ: WebApplication */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "WebApplication",
-              "name": "たしざん練習アプリ（数図ブロック付き）",
-              "alternateName": "たしざん１（数図ブロック付き）",
-              "description": "数図ブロックでたしざんを視覚的に学べる無料の学習アプリ。小学1〜2年生向けの足し算を、ドラッグ&ドロップ対応の数図ブロックで直感的に練習できます。10までのかず、10+□・□+10、1□+□・□+1□、20までのかずの4つの難易度レベル。ブロックをクリック/タップで裏返し、ドラッグで移動可能。効果音付きで楽しく学習。タブレット最適化対応。ブラウザで今すぐ使える算数学習ツール。",
-              "url": "https://jimitas.com/tashizan_1/",
+              "name": "ぶろっく",
+              "alternateName": "かずのがくしゅうアプリ（ぶろっく）",
+              "description": "かずのがくしゅうを楽しく学べる無料アプリ。小学1年生向けにぶろっくを並べながら数の概念を視覚的に学習できます。3つのモード（なんこならべたかな・ならべたかずはいくつ・ならべよう）で段階的に学習。正解するとコインが貯まるゲーミフィケーション機能付き。",
+              "url": "https://jimitas.com/kazu_block/",
               "applicationCategory": "EducationalApplication",
               "applicationSubCategory": "算数学習アプリ",
               "operatingSystem": "Web Browser",
               "browserRequirements": "HTML5対応ブラウザ",
               "inLanguage": "ja",
-              "educationalLevel": "小学1〜2年生",
-              "teaches": "足し算、たしざん、数図ブロック",
+              "educationalLevel": "小学1年生",
+              "teaches": "数の概念、かずを数える、ぶろっくを並べる、数の大きさ",
               "learningResourceType": "インタラクティブ学習アプリ",
               "interactivityType": "active",
               "isAccessibleForFree": true,
@@ -96,28 +93,28 @@ const Layout: React.FC<LayoutProps> = ({ children, title }) => {
                 "@type": "Organization",
                 "name": "jimitas.com"
               },
-              "keywords": "たしざん練習アプリ, 数図ブロック, たしざん アプリ 無料, 足し算 練習, 小学生 算数, 算数 たしざん, 小学1年生 算数, 小学2年生 算数, ドラッグアンドドロップ, 視覚的学習",
+              "keywords": "ぶろっく, 数図ブロック, かずのがくしゅう, 小学1年生 算数, 数の概念, かずを数える, 算数 学習アプリ",
               "audience": {
                 "@type": "EducationalAudience",
                 "educationalRole": "student",
                 "audienceType": "小学生"
               },
               "featureList": [
-                "数図ブロックによる視覚的学習",
-                "ドラッグ&ドロップ対応",
-                "クリック/タップで裏返し機能",
-                "4つの難易度レベル",
-                "問題の自動生成と手動入力",
-                "効果音付きで楽しく学習",
-                "タブレット・スマホ最適化対応",
-                "無料で使える",
-                "インストール不要"
+                "3つの学習モード（なんこならべたかな・ならべたかずはいくつ・ならべよう）",
+                "ドラッグ&ドロップでぶろっくを自由に移動",
+                "4段階の難易度選択（1〜5、1〜10、11〜20、1〜20）",
+                "正解するとコインが貯まるゲーミフィケーション機能",
+                "クリック/タップでぶろっくの色を変える",
+                "リセットボタンで初期配置に戻る",
+                "タブレット・スマホのタッチ操作に対応",
+                "ブラウザで今すぐ使える・インストール不要",
+                "無料で使える"
               ]
             })
           }}
         />
 
-        {/* パンくずリスト構造化データ */}
+        {/* 構造化データ: BreadcrumbList */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -134,15 +131,15 @@ const Layout: React.FC<LayoutProps> = ({ children, title }) => {
                 {
                   "@type": "ListItem",
                   "position": 2,
-                  "name": "たしざん練習アプリ（数図ブロック付き）",
-                  "item": "https://jimitas.com/tashizan_1/"
+                  "name": "ぶろっく",
+                  "item": "https://jimitas.com/kazu_block/"
                 }
               ]
             })
           }}
         />
 
-        {/* FAQ構造化データ */}
+        {/* 構造化データ: FAQPage */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -152,7 +149,7 @@ const Layout: React.FC<LayoutProps> = ({ children, title }) => {
               "mainEntity": [
                 {
                   "@type": "Question",
-                  "name": "たしざん練習アプリ（数図ブロック付き）は無料で使えますか？",
+                  "name": "ぶろっくアプリは無料で使えますか？",
                   "acceptedAnswer": {
                     "@type": "Answer",
                     "text": "はい、完全無料でご利用いただけます。インストールも不要で、ブラウザで今すぐお使いいただけます。"
@@ -163,15 +160,15 @@ const Layout: React.FC<LayoutProps> = ({ children, title }) => {
                   "name": "どの学年の学習に適していますか？",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "小学1年生から2年生の算数学習に最適です。10までのかず、10+□・□+10、1□+□・□+1□、20までのかずの4つの難易度レベルがあり、お子様のレベルに合わせて練習できます。"
+                    "text": "小学1年生の4月入学当初から使える、数の概念を学ぶためのアプリです。難易度は1〜5、1〜10、11〜20、1〜20の4段階から選べます。"
                   }
                 },
                 {
                   "@type": "Question",
-                  "name": "数図ブロックとは何ですか？",
+                  "name": "どんな学習ができますか？",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "数図ブロックは、たし算を視覚的に理解するための教材です。各ブロックは10個のマスを持ち、ドラッグ&ドロップで並べ替え可能です。クリック/タップで表裏を返すことができ、タッチデバイスにも対応しています。"
+                    "text": "3つのモードがあります。①なんこならべたかな：自由にぶろっくを並べて数を確かめる。②ならべたかずはいくつ：並んだぶろっくの数を答えるクイズ。③ならべよう：指定された数だけぶろっくを並べる練習。"
                   }
                 },
                 {
@@ -179,7 +176,7 @@ const Layout: React.FC<LayoutProps> = ({ children, title }) => {
                   "name": "スマートフォンやタブレットでも使えますか？",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "はい、レスポンシブデザインを採用しているため、パソコン、タブレット、スマートフォンのどれでも快適にご利用いただけます。特にタブレットでの学習に最適化されています。タッチ操作にも対応しており、指でドラッグ&ドロップできます。"
+                    "text": "はい、タブレット・スマートフォンのタッチ操作に対応しています。指でぶろっくをドラッグ&ドロップして並べることができます。"
                   }
                 }
               ]
@@ -197,9 +194,9 @@ const Layout: React.FC<LayoutProps> = ({ children, title }) => {
         </main>
         <footer className="bg-gray-100 mt-8 py-4">
           <p className="text-center text-sm md:text-base px-4 mb-2">
-            小学1年生から2年生向けのたしざん練習アプリです。数図ブロックで視覚的に学習できます。
+            小学1年生向けのかずのがくしゅうアプリです。ぶろっくを並べながら数の概念を視覚的に学習できます。
             <span className="text-blue-600 font-bold"> ✨ ドラッグ&ドロップでぶろっくを移動</span>できるので、
-            手を動かしながら楽しく取り組めます。10までのかず、10+□、1□+□、20までのかずの4つの難易度レベルで幅広くサポート。
+            手を動かしながら楽しく取り組めます。
           </p>
           <p className="text-center text-sm md:text-base">
             地味に助かる学習コンテンツ：
