@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  color: black;
+  background: white;
+}
+
+/* Drag and Drop用のスタイル */
+.droppable-elem {
+  /* ドロップ可能な要素のスタイル */
+}
+
+.draggable-elem {
+  /* ドラッグ可能な要素のスタイル */
+  cursor: grab;
+}
+
+.draggable-elem:active {
+  cursor: grabbing;
+}
