@@ -192,21 +192,22 @@ export default function Block1() {
       {/* 起動時トースト */}
       {showToast && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="bg-white rounded-2xl shadow-2xl w-[90vw] max-w-md p-6 mx-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-[90vw] max-w-md mx-4 flex flex-col max-h-[90vh]">
+          <div className="overflow-y-auto p-4 md:p-6 flex-1">
 
             {/* タイトル */}
-            <h2 className="text-center text-xl md:text-2xl font-bold text-blue-600 mb-4">
+            <h2 className="text-center text-lg md:text-2xl font-bold text-blue-600 mb-3">
               🎯 ぶろっくのつかいかた
             </h2>
 
             {/* できること */}
-            <p className="text-center text-sm md:text-base text-gray-600 mb-4">
+            <p className="text-center text-sm text-gray-600 mb-3">
               ぶろっくをならべながら　かずをまなぼう！<br />
               したの４つのモードからえらんでね。
             </p>
 
             {/* 4モードの説明 */}
-            <div className="space-y-2 mb-6">
+            <div className="space-y-2 mb-4">
               <div className="flex items-start gap-3 bg-blue-50 rounded-xl p-3">
                 <span className="text-2xl">①</span>
                 <div>
@@ -237,7 +238,10 @@ export default function Block1() {
               </div>
             </div>
 
-            {/* はじめるボタン */}
+          </div>
+
+          {/* はじめるボタン（常に画面内に固定） */}
+          <div className="p-4 md:p-6 pt-0">
             <button
               onClick={closeToast}
               className="w-full py-3 bg-blue-500 hover:bg-blue-600 active:translate-y-0.5 text-white font-bold text-lg rounded-xl shadow-md transition-colors"
@@ -245,6 +249,7 @@ export default function Block1() {
               はじめる！
             </button>
           </div>
+        </div>
         </div>
       )}
 
