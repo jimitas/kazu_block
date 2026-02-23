@@ -202,11 +202,11 @@ export default function Block1() {
             {/* できること */}
             <p className="text-center text-sm md:text-base text-gray-600 mb-4">
               ぶろっくをならべながら　かずをまなぼう！<br />
-              したの３つのモードからえらんでね。
+              したの４つのモードからえらんでね。
             </p>
 
-            {/* 3モードの説明 */}
-            <div className="space-y-3 mb-6">
+            {/* 4モードの説明 */}
+            <div className="space-y-2 mb-6">
               <div className="flex items-start gap-3 bg-blue-50 rounded-xl p-3">
                 <span className="text-2xl">①</span>
                 <div>
@@ -226,6 +226,13 @@ export default function Block1() {
                 <div>
                   <div className="font-bold text-orange-700">ならべよう</div>
                   <div className="text-sm text-gray-600">「もんだい」をおすと　「○こならべましょう」ともんだいがでるよ。はこからぶろっくをうごかしてならべよう</div>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 bg-purple-50 rounded-xl p-3">
+                <span className="text-2xl">④</span>
+                <div>
+                  <div className="font-bold text-purple-700">しゅうちゅう</div>
+                  <div className="text-sm text-gray-600">ぶろっくだけをひょうじするモードだよ。もんだいなどをかくして　じゆうにぶろっくをうごかせるよ</div>
                 </div>
               </div>
             </div>
@@ -253,7 +260,7 @@ export default function Block1() {
                 ${mode === m && m !== 4
                   ? "bg-blue-500 text-white border-blue-500"
                   : m === 4
-                  ? "bg-green-500 text-white border-green-500 hover:bg-green-600"
+                  ? "bg-purple-500 text-white border-purple-500 hover:bg-purple-600"
                   : "bg-white text-blue-500 border-blue-300 hover:bg-blue-50"
                 }`}
             >
