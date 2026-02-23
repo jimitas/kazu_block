@@ -322,25 +322,25 @@ export default function Block1() {
         </>
       )}
 
-      {/* コインエリア（しゅうちゅうモード以外） */}
-      {mode !== 4 && (
-        <div className="flex items-center gap-3 mx-auto my-4 px-4 py-3 rounded-xl bg-amber-50 border-2 border-amber-300"
-             style={{ width: "max(44vw, 440px)" }}>
-          <div
-            ref={coinPalletRef}
-            className="flex flex-wrap gap-1 flex-1 min-h-[44px] items-center"
-          ></div>
-          <div className="text-right">
-            <div className="text-xs text-amber-700 font-bold">{coinCount}まい</div>
-            <button
-              onClick={resetCoins}
-              className="mt-1 text-xs px-2 py-1 bg-red-400 hover:bg-red-500 text-white rounded-lg font-bold transition-colors"
-            >
-              リセット
-            </button>
-          </div>
+      {/* コインエリア（しゅうちゅうモード中は非表示、DOMは保持） */}
+      <div
+        className="flex items-center gap-3 mx-auto my-4 px-4 py-3 rounded-xl bg-amber-50 border-2 border-amber-300"
+        style={{ width: "max(44vw, 440px)", display: mode === 4 ? "none" : "flex" }}
+      >
+        <div
+          ref={coinPalletRef}
+          className="flex flex-wrap gap-1 flex-1 min-h-[44px] items-center"
+        ></div>
+        <div className="text-right">
+          <div className="text-xs text-amber-700 font-bold">{coinCount}まい</div>
+          <button
+            onClick={resetCoins}
+            className="mt-1 text-xs px-2 py-1 bg-red-400 hover:bg-red-500 text-white rounded-lg font-bold transition-colors"
+          >
+            リセット
+          </button>
         </div>
-      )}
+      </div>
 
     </Layout>
   );
