@@ -11,13 +11,14 @@ import Layout from "src/components/Layout";
 const NUM_1 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const NUM_2 = [11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 
-type Mode = 1 | 2 | 3;
+type Mode = 1 | 2 | 3 | 4;
 type Difficulty = "1-5" | "1-10" | "11-20" | "1-20";
 
 const MODE_LABELS: { label: string; mode: Mode }[] = [
   { label: "なんこならべたかな？", mode: 1 },
   { label: "ならべたかずはいくつ？", mode: 2 },
   { label: "ならべよう", mode: 3 },
+  { label: "しゅうちゅう", mode: 4 },
 ];
 
 const DIFFICULTIES: { label: string; value: Difficulty }[] = [
@@ -31,6 +32,7 @@ const INIT_TEXT: Record<Mode, string> = {
   1: "ぶろっくをならべて「たしかめ」をおそう",
   2: "「もんだい」をおそう",
   3: "「もんだい」をおそう",
+  4: "",
 };
 
 export default function Block1() {
@@ -278,17 +280,19 @@ export default function Block1() {
         </div>
       )}
 
-      {/* アクションボタン */}
-      <div className="flex flex-wrap justify-center items-center">
-        {(mode === 2 || mode === 3) && (
-          <BtnQuestion handleEvent={giveQuestion} />
-        )}
-        {(mode === 1 || mode === 3) && (
-          <BtnCheck handleEvent={checkCount} btnText="たしかめ" />
-        )}
-      </div>
+      {/* アクションボタン（しゅうちゅうモード以外） */}
+      {mode !== 4 && (
+        <div className="flex flex-wrap justify-center items-center">
+          {(mode === 2 || mode === 3) && (
+            <BtnQuestion handleEvent={giveQuestion} />
+          )}
+          {(mode === 1 || mode === 3) && (
+            <BtnCheck handleEvent={checkCount} btnText="たしかめ" />
+          )}
+        </div>
+      )}
 
-      <PutText el_text={el_text}></PutText>
+      {mode !== 4 && <PutText el_text={el_text}></PutText>}
 
       <div className="place">
         <Block
@@ -306,23 +310,25 @@ export default function Block1() {
         </>
       )}
 
-      {/* コインエリア */}
-      <div className="flex items-center gap-3 mx-auto my-4 px-4 py-3 rounded-xl bg-amber-50 border-2 border-amber-300"
-           style={{ width: "max(44vw, 440px)" }}>
-        <div
-          ref={coinPalletRef}
-          className="flex flex-wrap gap-1 flex-1 min-h-[44px] items-center"
-        ></div>
-        <div className="text-right">
-          <div className="text-xs text-amber-700 font-bold">{coinCount}まい</div>
-          <button
-            onClick={resetCoins}
-            className="mt-1 text-xs px-2 py-1 bg-red-400 hover:bg-red-500 text-white rounded-lg font-bold transition-colors"
-          >
-            リセット
-          </button>
+      {/* コインエリア（しゅうちゅうモード以外） */}
+      {mode !== 4 && (
+        <div className="flex items-center gap-3 mx-auto my-4 px-4 py-3 rounded-xl bg-amber-50 border-2 border-amber-300"
+             style={{ width: "max(44vw, 440px)" }}>
+          <div
+            ref={coinPalletRef}
+            className="flex flex-wrap gap-1 flex-1 min-h-[44px] items-center"
+          ></div>
+          <div className="text-right">
+            <div className="text-xs text-amber-700 font-bold">{coinCount}まい</div>
+            <button
+              onClick={resetCoins}
+              className="mt-1 text-xs px-2 py-1 bg-red-400 hover:bg-red-500 text-white rounded-lg font-bold transition-colors"
+            >
+              リセット
+            </button>
+          </div>
         </div>
-      </div>
+      )}
 
     </Layout>
   );
