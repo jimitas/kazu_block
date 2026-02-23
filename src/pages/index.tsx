@@ -243,19 +243,24 @@ export default function Block1() {
 
       {/* モード選択トグル */}
       <div className="flex flex-wrap justify-center gap-2 my-3">
-        {MODE_LABELS.map(({ label, mode: m }) => (
-          <button
-            key={m}
-            onClick={() => changeMode(m)}
-            className={`font-bold px-3 py-2 rounded-lg border-2 text-sm md:text-base transition-colors
-              ${mode === m
-                ? "bg-blue-500 text-white border-blue-500"
-                : "bg-white text-blue-500 border-blue-300 hover:bg-blue-50"
-              }`}
-          >
-            {label}
-          </button>
-        ))}
+        {MODE_LABELS.map(({ label, mode: m }) => {
+          if (mode === 4 && m !== 4) return null;
+          return (
+            <button
+              key={m}
+              onClick={() => changeMode(m === 4 && mode === 4 ? 1 : m)}
+              className={`font-bold px-3 py-2 rounded-lg border-2 text-sm md:text-base transition-colors
+                ${mode === m && m !== 4
+                  ? "bg-blue-500 text-white border-blue-500"
+                  : m === 4
+                  ? "bg-green-500 text-white border-green-500 hover:bg-green-600"
+                  : "bg-white text-blue-500 border-blue-300 hover:bg-blue-50"
+                }`}
+            >
+              {m === 4 && mode === 4 ? "かいじょする" : label}
+            </button>
+          );
+        })}
       </div>
 
       {/* 難易度選択（mode 2・3 のみ） */}
