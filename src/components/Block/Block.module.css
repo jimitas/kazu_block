@@ -5,7 +5,7 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  width: max(44vw, 440px);
+  width: calc(max(44vw, 440px) + 32px);
   margin-bottom: 6px;
 }
 
@@ -30,7 +30,7 @@
    仕切りラベル
    ============================== */
 .separator {
-  width: max(44vw, 440px);
+  width: calc(max(44vw, 440px) + 32px);
   display: flex;
   align-items: center;
   gap: 8px;
